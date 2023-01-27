@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="Main" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 29.0
+margin_top = 26.0
+margin_right = 146.0
+margin_bottom = 40.0
+text = "Escape The Waves (WIP)"
