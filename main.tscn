@@ -1,4 +1,6 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://entities/player/player.tscn" type="PackedScene" id=1]
 
 [node name="Main" type="Node2D"]
 
@@ -8,3 +10,6 @@ margin_top = 26.0
 margin_right = 146.0
 margin_bottom = 40.0
 text = "Escape The Waves (WIP)"
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 225, 150 )
