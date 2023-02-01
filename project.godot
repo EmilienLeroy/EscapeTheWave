@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
+"base": "CanvasLayer",
 "class": "ControlTouch",
 "language": "GDScript",
 "path": "res://entities/control/control.gd"
@@ -35,7 +35,7 @@ config/icon="res://icon.png"
 window/size/width=800
 window/size/height=360
 window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/stretch/aspect="expand"
 
 [gui]
 

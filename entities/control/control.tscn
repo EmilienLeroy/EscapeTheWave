@@ -3,27 +3,36 @@
 [ext_resource path="res://addons/joystick/virtual_joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/control/control.gd" type="Script" id=2]
 
-[node name="Control" type="Node2D"]
+[node name="Control" type="CanvasLayer"]
 script = ExtResource( 2 )
 
-[node name="Left" parent="." instance=ExtResource( 1 )]
-margin_left = 29.0
-margin_top = 142.0
-margin_right = 229.0
-margin_bottom = 342.0
-rect_pivot_offset = Vector2( -252, -137 )
+[node name="Right" parent="." instance=ExtResource( 1 )]
+modulate = Color( 1, 1, 1, 0.196078 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -203.0
+margin_top = -198.0
+margin_right = -5.0
+margin_bottom = 7.0
+rect_scale = Vector2( 0.6, 0.6 )
+rect_pivot_offset = Vector2( 98.926, 100.593 )
+clampzone_size = 50.0
 use_input_actions = false
 action_left = "ui_left_touch"
 action_right = "ui_right_touch"
 action_up = "ui_up_touch"
 action_down = "ui_down_touch"
 
-[node name="Right" parent="." instance=ExtResource( 1 )]
-margin_left = 597.0
-margin_top = 153.0
-margin_right = 797.0
-margin_bottom = 353.0
-rect_pivot_offset = Vector2( -252, -137 )
+[node name="Left" parent="." instance=ExtResource( 1 )]
+modulate = Color( 1, 1, 1, 0.196078 )
+margin_left = 0.0
+margin_top = -204.0
+margin_right = 200.0
+margin_bottom = 0.0
+rect_scale = Vector2( 0.6, 0.6 )
+rect_pivot_offset = Vector2( 100.407, 99.2963 )
+size_flags_horizontal = 3
+clampzone_size = 50.0
 use_input_actions = false
 action_left = "ui_left_touch"
 action_right = "ui_right_touch"
