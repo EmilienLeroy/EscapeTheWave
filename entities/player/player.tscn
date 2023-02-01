@@ -25,3 +25,6 @@ position = Vector2( 17, 0 )
 rotation = -1.5708
 scale = Vector2( 7.06813, 5.04867 )
 mesh = SubResource( 3 )
+
+[node name="Muzzle" type="Position2D" parent="."]
+position = Vector2( 27, 0 )
