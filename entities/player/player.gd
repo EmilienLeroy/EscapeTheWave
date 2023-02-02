@@ -11,7 +11,7 @@ var velocity = Vector2();
 
 func _physics_process(delta):
 	if control.left and control.left.is_pressed():
-		position += get_position_touch(control.left.get_output(), speed, delta);
+		move_and_collide(get_direction_touch(control.left.get_output(), speed, delta));
 	#
 	if move_keys_is_pressed():
 		move_and_collide(get_direction_keys(velocity, speed, delta));
@@ -23,8 +23,8 @@ func _process(delta):
 	if (control.right and control.right.is_pressed() and Engine.get_idle_frames() % shoot_interval == 0):
 		shoot();
 
-func get_position_touch(v: Vector2, s: int, d: float):
-	return v * s * d;
+func get_direction_touch(v: Vector2, s: int, d: float):
+	return v.normalized() * s * d;
 
 func get_direction_keys(v: Vector2, s: int, d: float):
 	v = Vector2();
