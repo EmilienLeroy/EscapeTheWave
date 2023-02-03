@@ -19,8 +19,15 @@ func _physics_process(delta):
 	if control.right and control.right.is_pressed():
 		rotation = control.right.get_output().angle();
 		
+	if !OS.has_touchscreen_ui_hint():
+		look_at(get_global_mouse_position());
+		
 func _process(delta):
-	if (control.right and control.right.is_pressed() and Engine.get_idle_frames() % shoot_interval == 0):
+	var is_shoot_frame = Engine.get_idle_frames() % shoot_interval == 0;
+	var is_mouse_pressed = Input.is_mouse_button_pressed(BUTTON_LEFT) and !OS.has_touchscreen_ui_hint();
+	var is_touch_pressed = control.right and control.right.is_pressed();
+	
+	if (is_shoot_frame and (is_mouse_pressed or is_touch_pressed)):
 		shoot();
 
 func get_direction_touch(v: Vector2, s: int, d: float):
