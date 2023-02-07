@@ -6,8 +6,12 @@ export (NodePath) var control_path;
 onready var control: ControlTouch = get_node(control_path);
 
 var speed = 250;
+var life = 100;
 var shoot_interval = 10;
 var velocity = Vector2();
+
+func _ready():
+	set_life(life);
 
 func _physics_process(delta):
 	if control.left and control.left.is_pressed():
@@ -59,3 +63,6 @@ func shoot():
 	var bullet = Bullet.instance();
 	owner.add_child(bullet);
 	bullet.transform = $Muzzle.global_transform;
+
+func set_life(life: int):
+	$Life.text = str(life);
