@@ -10,10 +10,17 @@ var path = [];
 var threshold = 16;
 var nav = null;
 var player = null;
+
+func init(p: KinematicBody2D, n: Navigation2D):
+	player = p;
+	nav = n;
 	
 func _ready():
-	nav = get_node(nav_path);
-	player = get_node(player_path);
+	if (nav_path):
+		nav = get_node(nav_path);
+	
+	if (player_path):
+		player = get_node(player_path);
 	
 	$Timer.connect("timeout", self, "on_timeout");
 	

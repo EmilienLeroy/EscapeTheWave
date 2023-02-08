@@ -5,7 +5,7 @@
 [ext_resource path="res://entities/wall/wall.tscn" type="PackedScene" id=3]
 [ext_resource path="res://main.gd" type="Script" id=4]
 [ext_resource path="res://entities/camera/camera.tscn" type="PackedScene" id=5]
-[ext_resource path="res://entities/mobs/base/base.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/mobs/spawn/spawn.tscn" type="PackedScene" id=7]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -27,29 +27,34 @@ position = Vector2( 401, 181 )
 current = true
 target_path = NodePath("../Player")
 
-[node name="Base" parent="." instance=ExtResource( 6 )]
-position = Vector2( 650, 116 )
-nav_path = NodePath("../Navigation2D")
-player_path = NodePath("../Player")
-
-[node name="Mob" parent="." instance=ExtResource( 6 )]
-position = Vector2( 429, 284 )
-nav_path = NodePath("../Navigation2D")
-player_path = NodePath("../Player")
-
-[node name="Mob2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 406, 12 )
-nav_path = NodePath("../Navigation2D")
-player_path = NodePath("../Player")
-
-[node name="Mob3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 302, 235 )
-nav_path = NodePath("../Navigation2D")
-player_path = NodePath("../Player")
-
 [node name="Label" type="Label" parent="."]
 margin_left = 31.0
 margin_top = 22.0
 margin_right = 186.0
 margin_bottom = 36.0
 text = "Escape The Waves (WIP)"
+
+[node name="Spawn2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 691, 96 )
+nav_path = NodePath("../Navigation2D")
+player_path = NodePath("../Player")
+
+[node name="Spawn3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 702, 618 )
+nav_path = NodePath("../Navigation2D")
+player_path = NodePath("../Player")
+
+[node name="Spawn4" parent="." instance=ExtResource( 7 )]
+position = Vector2( 118, 639 )
+nav_path = NodePath("../Navigation2D")
+player_path = NodePath("../Player")
+
+[node name="Spawn5" parent="." instance=ExtResource( 7 )]
+position = Vector2( 443, 438 )
+nav_path = NodePath("../Navigation2D")
+player_path = NodePath("../Player")
+
+[node name="Spawn" parent="." instance=ExtResource( 7 )]
+position = Vector2( 96, 82 )
+nav_path = NodePath("../Navigation2D")
+player_path = NodePath("../Player")

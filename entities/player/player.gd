@@ -16,7 +16,7 @@ func _ready():
 func _physics_process(delta):
 	if control.left and control.left.is_pressed():
 		move_and_collide(get_direction_touch(control.left.get_output(), speed, delta));
-	#
+
 	if move_keys_is_pressed():
 		move_and_collide(get_direction_keys(velocity, speed, delta));
 	
