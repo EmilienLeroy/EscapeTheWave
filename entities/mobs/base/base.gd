@@ -3,7 +3,8 @@ extends KinematicBody2D
 export (NodePath) var nav_path;
 export (NodePath) var player_path;
 export var life = 30;
-export var speed = 100
+export var speed = 100;
+export var score_value = 10;
 
 var velocity = Vector2.ZERO;
 var path = [];

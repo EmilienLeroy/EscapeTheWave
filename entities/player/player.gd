@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal increase_score;
+
 var Bullet = preload("res://entities/bullets/base/base.tscn");
 
 export (NodePath) var control_path;
@@ -61,8 +63,14 @@ func move_keys_is_pressed():
 
 func shoot():
 	var bullet = Bullet.instance();
+	
 	owner.add_child(bullet);
 	bullet.transform = $Muzzle.global_transform;
+	bullet.connect("kill_mob", self, "on_mob_kill");
 
 func set_life(life: int):
 	$Life.text = str(life);
+
+func on_mob_kill(mob):
+	emit_signal("increase_score", mob.score_value);
+
