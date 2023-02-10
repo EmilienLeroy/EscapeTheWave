@@ -15,10 +15,10 @@ func _ready():
 
 func _physics_process(delta):
 	if control.left and control.left.is_pressed():
-		move_and_collide(get_direction_touch(control.left.get_output(), speed, delta));
+		move_and_slide(get_direction_touch(control.left.get_output(), speed, 1));
 
 	if move_keys_is_pressed():
-		move_and_collide(get_direction_keys(velocity, speed, delta));
+		move_and_slide(get_direction_keys(velocity, speed, 1));
 	
 	if control.right and control.right.is_pressed():
 		rotation = control.right.get_output().angle();
@@ -39,7 +39,7 @@ func get_direction_touch(v: Vector2, s: int, d: float):
 
 func get_direction_keys(v: Vector2, s: int, d: float):
 	v = Vector2();
-
+	
 	if Input.is_action_pressed('ui_right'):
 		v.x += 1
 	if Input.is_action_pressed('ui_left'):
