@@ -12,8 +12,8 @@ func _physics_process(delta):
 	position += transform.x * speed * delta
 
 func on_body_enter(body):
-	if (body.is_in_group('mob') and body.has_method('damage')):
-		body.damage(damage);
+	if (body.is_in_group('mob') and body.has_method('take_damage')):
+		body.take_damage(damage);
 	
 		if (body.life <= 0):
 			emit_signal("kill_mob", body);

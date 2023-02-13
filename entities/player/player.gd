@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal increase_score;
+signal game_over;
 
 var Bullet = preload("res://entities/bullets/base/base.tscn");
 
@@ -67,6 +68,14 @@ func shoot():
 	owner.add_child(bullet);
 	bullet.transform = $Muzzle.global_transform;
 	bullet.connect("kill_mob", self, "on_mob_kill");
+
+func take_damage(value: int):
+	life = life - value;
+	set_life(life);
+	
+	if (life <= 0):
+		emit_signal('game_over');
+		queue_free();
 
 func set_life(life: int):
 	$Life.text = str(life);

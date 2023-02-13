@@ -15,6 +15,7 @@ func _ready():
 	nav = get_node(nav_path);
 	player = get_node(player_path);
 	
+	player.connect('game_over', self, "on_game_over");
 	$Timer.connect("timeout", self, "on_timeout");
 	pass
 
@@ -27,10 +28,12 @@ func create_mob():
 func on_timeout():
 	$Timer.wait_time = rng.randi_range(1, 5);
 	
-	if (max_mobs <= get_tree().get_nodes_in_group("mob").size()):
+	if (!player or max_mobs <= get_tree().get_nodes_in_group("mob").size()):
 		return;
 	
 	var mob = create_mob();
 	add_child(mob);
 	mob.global_position = global_position;
 	
+func on_game_over():
+	player = null;

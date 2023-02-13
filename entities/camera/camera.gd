@@ -8,9 +8,13 @@ func _ready():
 	
 	if (target):
 		position = target.position;
+		target.connect("game_over", self, "on_game_over");
 
 func _physics_process(delta):
 	if (!target):
 		return;
 		
 	position = lerp(position, target.position, 0.08);
+
+func on_game_over():
+	target = null;
