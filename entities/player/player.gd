@@ -8,9 +8,11 @@ var Bullet = preload("res://entities/bullets/base/base.tscn");
 export (NodePath) var control_path;
 onready var control: ControlTouch = get_node(control_path);
 
-var speed = 250;
-var life = 100;
-var shoot_interval = 10;
+export var speed = 250;
+export var life = 100;
+export var max_life = 100;
+export var shoot_interval = 10;
+
 var velocity = Vector2();
 
 func _ready():
@@ -76,6 +78,15 @@ func take_damage(value: int):
 	if (life <= 0):
 		emit_signal('game_over');
 		queue_free();
+
+func healing(value: int):
+	var new_life = life + value;
+	
+	if (max_life < new_life):
+		return;
+	
+	life = new_life;
+	set_life(life);
 
 func set_life(life: int):
 	$Life.text = str(life);
