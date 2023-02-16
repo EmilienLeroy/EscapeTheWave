@@ -77,5 +77,5 @@ func on_timeout():
 
 	get_target_path(player.global_position);
 
-func on_game_over():
+func on_game_over(score):
 	player = null;

@@ -13,8 +13,8 @@ func _ready():
 func _physics_process(delta):
 	if (!target):
 		return;
-		
+
 	position = lerp(position, target.position, 0.08);
 
-func on_game_over():
+func on_game_over(score):
 	target = null;

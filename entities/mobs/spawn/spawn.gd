@@ -35,5 +35,5 @@ func on_timeout():
 	add_child(mob);
 	mob.global_position = global_position;
 	
-func on_game_over():
+func on_game_over(score):
 	player = null;

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal increase_score;
+signal update_score;
 signal game_over;
 
 var Bullet = preload("res://entities/bullets/base/base.tscn");
@@ -13,6 +13,7 @@ export var life = 100;
 export var max_life = 100;
 export var shoot_interval = 10;
 
+var score = 0;
 var velocity = Vector2();
 
 func _ready():
@@ -76,8 +77,7 @@ func take_damage(value: int):
 	set_life(life);
 	
 	if (life <= 0):
-		emit_signal('game_over');
-		queue_free();
+		died();
 
 func healing(value: int):
 	var new_life = life + value;
@@ -87,10 +87,15 @@ func healing(value: int):
 	
 	life = new_life;
 	set_life(life);
+	
+func died():
+	emit_signal('game_over', score);
+	queue_free();
 
 func set_life(life: int):
 	$Life.text = str(life);
 
 func on_mob_kill(mob):
-	emit_signal("increase_score", mob.score_value);
+	score = score + mob.score_value;
+	emit_signal("update_score", score);
 
