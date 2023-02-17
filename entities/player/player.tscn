@@ -16,11 +16,11 @@ script = ExtResource( 1 )
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+[node name="Texture" type="MeshInstance2D" parent="."]
 scale = Vector2( 14.5, 14.5 )
 mesh = SubResource( 2 )
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="."]
+[node name="Pointer" type="MeshInstance2D" parent="."]
 position = Vector2( 17, 0 )
 rotation = -1.5708
 scale = Vector2( 7.06813, 5.04867 )

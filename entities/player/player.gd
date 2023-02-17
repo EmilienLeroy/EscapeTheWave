@@ -12,8 +12,10 @@ export var speed = 250;
 export var life = 100;
 export var max_life = 100;
 export var shoot_interval = 10;
+export var invulnerable_time = 2;
 
 var score = 0;
+var invulnerable = false;
 var velocity = Vector2();
 
 func _ready():
@@ -73,11 +75,16 @@ func shoot():
 	bullet.connect("kill_mob", self, "on_mob_kill");
 
 func take_damage(value: int):
+	if (invulnerable):
+		return;
+	
 	life = life - value;
 	set_life(life);
 	
 	if (life <= 0):
 		died();
+		
+	add_invulnerability();
 
 func healing(value: int):
 	var new_life = life + value;
@@ -88,9 +95,27 @@ func healing(value: int):
 	life = new_life;
 	set_life(life);
 	
+func add_invulnerability():
+	invulnerable = true;
+	blinking();
+	
+	yield(get_tree().create_timer(invulnerable_time), "timeout");
+	remove_invulnerability();
+	
+func remove_invulnerability():
+	invulnerable = false;
+	
 func died():
 	emit_signal('game_over', score);
 	queue_free();
+	
+func blinking():
+	for i in 4:
+		modulate.a = 0.2
+		yield(get_tree().create_timer(0.2), "timeout");
+		
+		modulate.a = 1.0
+		yield(get_tree().create_timer(0.2), "timeout");
 
 func set_life(life: int):
 	$Life.text = str(life);
