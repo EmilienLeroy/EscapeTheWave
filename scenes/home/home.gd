@@ -10,4 +10,4 @@ func on_button_down():
 	Router.goto_scene("res://scenes/single/single.tscn");
 	
 func on_map_down():
-	Router.goto_scene("res://entities/world/world.tscn");
+	Router.goto_scene("res://scenes/map/map.tscn");

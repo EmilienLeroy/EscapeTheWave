@@ -1,76 +1,73 @@
 extends Node2D
 
-const DIRECTIONS = [Vector2.RIGHT, Vector2.UP, Vector2.LEFT, Vector2.DOWN]
+export var map_size = 64;
+export var tile_size = 20;
 
-export var width = 40;
-export var height = 40;
- 
-var start = Vector2(width / 4, height / 4);
-var direction = Vector2.RIGHT
-var borders = Rect2(0, 0, width, height)
-var walls = [];
-var walls_since_turn = 0;
-var rooms = []
+var player;
+var camera;
+
+func init(s, p, c):
+	map_size = s;
+	player = p;
+	camera = c;
 
 func _ready():
-	walls.append(start);
+	var map = create_map(map_size);
+	var center = (map_size * tile_size) / 2
 	
-	add_wall(walk(height * 10));
-	add_grass();
+	add_island(map, map_size / 4);
+	add_texture(map, map_size);
 	
-	pass
-
-func walk(steps):
-	for step in steps:
-		if walls_since_turn >= 8:
-			change_direction()
+	if (player):
+		player.position = Vector2(center, center);
 		
-		if step():
-			walls.append(start)
-		else:
-			change_direction()
-	return walls
-	
-func step():
-	var target_position = start + direction
-	if borders.has_point(target_position):
-		walls_since_turn += 1
-		start = target_position
-		return true
-	else:
-		return false
+	if (camera):
+		camera.position = Vector2(center, center);
 
-func change_direction():
-	walls_since_turn = 0
-	var directions = DIRECTIONS.duplicate()
-	directions.erase(direction)
-	directions.shuffle()
-	direction = directions.pop_front()
-	while not borders.has_point(start + direction):
-		direction = directions.pop_front()
+func create_map(size):
+	var map = [];
 
-func place_room(position):
-	var size = Vector2(randi() % 4 + 2, randi() % 4 + 2)
-	var top_left_corner = (position - size/2).ceil();
-	
-	rooms.append({position = position, size = size})
-	
-	for y in size.y:
-		for x in size.x:
-			var new_step = top_left_corner + Vector2(x, y)
-			if borders.has_point(new_step):
-				walls.append(new_step)
-
-func add_grass():
-	for x in width:
-		for y in height: 
-			$Grass.set_cell(x, y, 0);
+	for i in range(size):
+		map.append([])
+		for j in range(size):
+			map[i].append(0)
 			
-	$Grass.update_bitmask_region(Vector2(0.0, 0.0), Vector2(width, height));
+	return map;
 
 
-func add_wall(map):
-	for location in map:
-		$Wall.set_cellv(location, 0);
+func add_island(map, size):
+	var center_x = map.size() / 2 - 1;
+	var center_y = map.size() / 2 - 1;
+	var radius = size;
 
-	$Wall.update_bitmask_region(Vector2(0.0, 0.0), Vector2(width, height));
+	var noise = OpenSimplexNoise.new()
+	noise.seed = randi()
+	noise.octaves = 0.5;
+	noise.period = 20;
+
+	for i in range(center_x - radius, center_x + radius):
+		for j in range(center_y - radius, center_y + radius):
+			var distance = sqrt(pow(i - center_x, 2) + pow(j - center_y, 2));
+			
+			if distance <= radius:
+				map[i][j] = 1
+				
+				if noise.get_noise_2d(i, j) > 0.05 and distance > radius - radius / 2:
+					map[i][j] = 0
+
+	return map;
+
+func add_texture(map, size):
+	for x in size:
+		for y in size:
+			var value = map[x][y];
+
+			match value:
+				0:
+					$Nav/Water.set_cell(x, y, 0);
+				1:
+					$Nav/Grass.set_cell(x, y, 0);
+		
+	$Nav/Water.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
+	$Nav/Grass.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
+
