@@ -10,12 +10,11 @@ script = ExtResource( 1 )
 
 [node name="Nav" type="Navigation2D" parent="."]
 
+[node name="Wall" parent="Nav" instance=ExtResource( 2 )]
+bake_navigation = true
+
 [node name="Grass" parent="Nav" instance=ExtResource( 3 )]
 bake_navigation = true
 
 [node name="Water" parent="Nav" instance=ExtResource( 7 )]
-collision_use_kinematic = true
-bake_navigation = true
-
-[node name="Wall" parent="Nav" instance=ExtResource( 2 )]
 bake_navigation = true

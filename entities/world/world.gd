@@ -16,6 +16,7 @@ func _ready():
 	var center = (map_size * tile_size) / 2
 	
 	add_island(map, map_size / 4);
+	add_wall(map, map_size);
 	add_texture(map, map_size);
 	
 	if (player):
@@ -56,6 +57,54 @@ func add_island(map, size):
 					map[i][j] = 0
 
 	return map;
+	
+
+func add_wall(map, size):
+	var space_x = 3;
+	var space_y = 10;
+	var rng = RandomNumberGenerator.new();
+	rng.randomize();
+	
+	for x in size:
+		if (space_x > 0):
+			space_x -= 1
+			continue
+
+		for y in size:
+			if (map[x][y] != 1):
+				continue
+				
+			if (space_y > 0):
+				space_y -= 1
+				continue
+				
+			if (rng.randf() < 0.50):
+				var direction = rng.randi_range(0, 2)
+				var wall_length = rng.randi_range(3, 20);
+				var middle = wall_length / 2;
+				
+				if (direction == 0):
+					for i in wall_length:
+						if map[x + i][y] == 1:
+							if (wall_length > 8 and i >= middle - 1 and i <= middle + 1):
+								map[x + i][y] = 1;
+								continue
+							
+							map[x + i][y] = 2;
+
+				elif (direction == 1):
+					for i in wall_length:
+						if map[x][y + i] == 1:
+							if (wall_length > 8 and i >= middle - 1 and i <= middle + 1):
+								map[x + i][y] = 1;
+								continue
+								
+							map[x][y + i] = 2;
+
+			space_y = rng.randi_range(4, 10);
+		space_x = rng.randi_range(4, 10);
+	return map
+
 
 func add_texture(map, size):
 	for x in size:
@@ -67,7 +116,10 @@ func add_texture(map, size):
 					$Nav/Water.set_cell(x, y, 0);
 				1:
 					$Nav/Grass.set_cell(x, y, 0);
+				2: 
+					$Nav/Wall.set_cell(x, y, 0);
 		
 	$Nav/Water.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
 	$Nav/Grass.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
+	$Nav/Wall.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
 
