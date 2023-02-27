@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://entities/escape/escape.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/map/map.gd" type="Script" id=2]
 [ext_resource path="res://entities/control/control.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/camera/camera.tscn" type="PackedScene" id=4]
@@ -16,3 +17,5 @@ target_path = NodePath("../Player")
 control_path = NodePath("../Control")
 
 [node name="Control" parent="." instance=ExtResource( 3 )]
+
+[node name="Escape" parent="." instance=ExtResource( 1 )]

@@ -5,11 +5,13 @@ export var tile_size = 20;
 
 var player;
 var camera;
+var escape;
 
-func init(s, p, c):
+func init(s, p, c, e):
 	map_size = s;
 	player = p;
 	camera = c;
+	escape = e;
 
 func _ready():
 	var map = create_map(map_size);
@@ -18,6 +20,9 @@ func _ready():
 	add_island(map, map_size / 4);
 	add_wall(map, map_size);
 	add_texture(map, map_size);
+	
+	if (escape):
+		add_escape(map, escape);
 	
 	if (player):
 		player.position = Vector2(center, center);
@@ -58,6 +63,18 @@ func add_island(map, size):
 
 	return map;
 	
+
+func get_island_border(map):
+	var border = []
+
+	for x in range(map.size()):
+		for y in range(map[x].size()):
+			if map[x][y] == 1:
+				if map[x - 1][y] == 0 or map[x + 1][y] == 0 or map[x][y - 1] == 0 or map[x][y + 1] == 0:
+					border.append(Vector2(x, y));
+
+	return border;
+
 
 func add_wall(map, size):
 	var space_x = 3;
@@ -104,6 +121,14 @@ func add_wall(map, size):
 			space_y = rng.randi_range(4, 10);
 		space_x = rng.randi_range(4, 10);
 	return map
+
+
+func add_escape(map, escape):
+	var rng = RandomNumberGenerator.new();
+	var borders = get_island_border(map);
+	
+	rng.randomize();
+	escape.position = borders[rng.randi_range(0, borders.size() - 1)] * tile_size;
 
 
 func add_texture(map, size):

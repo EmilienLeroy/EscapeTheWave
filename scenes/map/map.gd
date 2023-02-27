@@ -5,7 +5,7 @@ var Map = preload('res://entities/world/world.tscn');
 func _ready():
 	var map = Map.instance();
 	
-	map.init(200, $Player, $Camera);
+	map.init(200, $Player, $Camera, $Escape);
 	add_child(map);
 	move_child(map, 0);
 	
