@@ -10,7 +10,7 @@ height = 2.0
 
 [sub_resource type="PrismMesh" id=3]
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["player"]]
 script = ExtResource( 1 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]

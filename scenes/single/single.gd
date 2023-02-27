@@ -5,6 +5,7 @@ var score = 0;
 func _ready():
 	$Player.connect("update_score", self, "on_increase_score");
 	$Player.connect("game_over", self, "on_game_over");
+	$Escape.connect("player_escape", self, "on_game_over");
 	pass 
 
 func on_increase_score(new_score: int):
