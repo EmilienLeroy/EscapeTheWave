@@ -18,6 +18,7 @@ func _ready():
 	var center = (map_size * tile_size) / 2
 	
 	add_island(map, map_size / 4);
+	remove_unconnected_island(map);
 	add_wall(map, map_size);
 	add_texture(map, map_size);
 	
@@ -58,7 +59,7 @@ func add_island(map, size):
 			if distance <= radius:
 				map[i][j] = 1
 				
-				if noise.get_noise_2d(i, j) > 0.05 and distance > radius - radius / 2:
+				if noise.get_noise_2d(i, j) > 0.1 and distance > radius - radius / 2:
 					map[i][j] = 0
 
 	return map;
@@ -75,6 +76,34 @@ func get_island_border(map):
 
 	return border;
 
+func remove_unconnected_island(map):
+	var visited = [];
+	
+	for x in range(map.size()):
+		visited.append([]);
+		for y in range(map.size()):
+			visited[x].append(false);
+
+	var start = Vector2((map_size / 2) - 1, (map_size / 2) - 1);
+	var stack = [start];
+
+	while stack.size() > 0:
+		var current = stack.pop_back();
+		var x = current.x;
+		var y = current.y;
+		visited[x][y] = true;
+
+		for i in range(x - 1, x + 2):
+			for j in range(y - 1, y + 2):
+				if i >= 0 and i < map.size() and j >= 0 and j < map.size() and map[i][j] == 1 and not visited[i][j]:
+					stack.append(Vector2(i, j));
+
+	for x in range(map.size()):
+		for y in range(map.size()):
+			if map[x][y] == 1 and not visited[x][y]:
+				map[x][y] = 0;
+				
+	return map
 
 func add_wall(map, size):
 	var space_x = 3;
