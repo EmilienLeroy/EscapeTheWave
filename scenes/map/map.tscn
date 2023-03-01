@@ -19,3 +19,19 @@ control_path = NodePath("../Control")
 [node name="Control" parent="." instance=ExtResource( 3 )]
 
 [node name="Escape" parent="." instance=ExtResource( 1 )]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Level" type="Label" parent="HUD"]
+margin_left = 720.0
+margin_top = 22.0
+margin_right = 770.0
+margin_bottom = 36.0
+text = "Level: 0"
+
+[node name="Score" type="Label" parent="HUD"]
+margin_left = 719.0
+margin_top = 43.0
+margin_right = 770.0
+margin_bottom = 57.0
+text = "Score: 0"

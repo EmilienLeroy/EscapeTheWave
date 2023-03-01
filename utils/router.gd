@@ -15,7 +15,7 @@ func update_current_view(path, data = null):
 	current_scene.free();
 	current_scene = scene.instance();
 	
-	if (current_scene.has_method('init')):
+	if (current_scene.has_method('init') and data):
 		current_scene.init(data);
 	
 	get_tree().root.add_child(current_scene);
