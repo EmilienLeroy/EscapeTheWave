@@ -4,7 +4,7 @@ var Map = preload('res://entities/world/world.tscn');
 
 var score = 0;
 var level = 1;
-var map_size = 80;
+var map_size = 40;
 
 func init(data):
 	level = data.level;

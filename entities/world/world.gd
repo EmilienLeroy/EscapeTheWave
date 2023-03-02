@@ -15,12 +15,13 @@ func init(s, p, c, e):
 
 func _ready():
 	var map = create_map(map_size);
-	var center = (map_size * tile_size) / 2
+	var center = (map_size * tile_size) / 2;
 	
-	add_island(map, map_size / 4);
+	add_island(map, (map_size / 2) - 2);
 	remove_unconnected_island(map);
 	add_wall(map, map_size);
 	add_texture(map, map_size);
+	VisualServer.set_default_clear_color(Color8(0, 119, 228));
 	
 	if (escape):
 		add_escape(map, escape);
@@ -67,10 +68,11 @@ func add_island(map, size):
 
 func get_island_border(map):
 	var border = []
+	var size = map.size();
 
-	for x in range(map.size()):
-		for y in range(map[x].size()):
-			if map[x][y] == 1:
+	for x in range(size):
+		for y in range(size):
+			if x + 1 < size and y + 1 < size and map[x][y] == 1:
 				if map[x - 1][y] == 0 or map[x + 1][y] == 0 or map[x][y - 1] == 0 or map[x][y + 1] == 0:
 					border.append(Vector2(x, y));
 
@@ -131,7 +133,7 @@ func add_wall(map, size):
 				
 				if (direction == 0):
 					for i in wall_length:
-						if map[x + i][y] == 1:
+						if x + i < size and map[x + i][y] == 1:
 							if (wall_length > 8 and i >= middle - 1 and i <= middle + 1):
 								map[x + i][y] = 1;
 								continue
@@ -140,7 +142,7 @@ func add_wall(map, size):
 
 				elif (direction == 1):
 					for i in wall_length:
-						if map[x][y + i] == 1:
+						if x + i < size and y + i < size and map[x][y + i] == 1:
 							if (wall_length > 8 and i >= middle - 1 and i <= middle + 1):
 								map[x + i][y] = 1;
 								continue
