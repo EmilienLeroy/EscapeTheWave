@@ -10,12 +10,23 @@ var player = null;
 var rng = RandomNumberGenerator.new();
 var max_mobs = ProjectSettings.get_setting('global/max_mobs');
 
-func _ready():
-	rng.randomize();
-	nav = get_node(nav_path);
-	player = get_node(player_path);
+
+func init(p, n):
+	player = p;
+	nav = n;
 	
 	player.connect('game_over', self, "on_game_over");
+
+func _ready():
+	rng.randomize();
+	
+	if (nav_path):
+		nav = get_node(nav_path);
+	
+	if (player_path):
+		player = get_node(player_path);
+		player.connect('game_over', self, "on_game_over");
+
 	$Timer.connect("timeout", self, "on_timeout");
 	pass
 

@@ -1,17 +1,21 @@
 extends Node2D
 
+var Spawn = preload("res://entities/mobs/spawn/spawn.tscn");
+
 export var map_size = 64;
 export var tile_size = 20;
 
 var player;
 var camera;
 var escape;
+var spawn_number = 1;
 
-func init(s, p, c, e):
+func init(s, p, c, e, n):
 	map_size = s;
 	player = p;
 	camera = c;
 	escape = e;
+	spawn_number = n;
 
 func _ready():
 	var map = create_map(map_size);
@@ -28,9 +32,11 @@ func _ready():
 	
 	if (player):
 		player.position = Vector2(center, center);
+		add_spawns(map, player, spawn_number);
 		
 	if (camera):
 		camera.position = Vector2(center, center);
+		
 
 func create_map(size):
 	var map = [];
@@ -161,6 +167,23 @@ func add_escape(map, escape):
 	rng.randomize();
 	escape.position = borders[rng.randi_range(0, borders.size() - 1)] * tile_size;
 
+func add_spawns(map, player, number):
+	var spawns = [];
+	
+	while spawns.size() < number:
+		var x = randi() % map_size;
+		var y = randi() % map_size;
+		
+		if (map[x][y] == 1):
+			var spawn = Spawn.instance();
+		
+			spawn.init(player, $Nav);
+			spawn.position = Vector2(x * tile_size, y * tile_size);
+			spawns.push_back(spawn);
+			
+			add_child(spawn);
+	
+	return spawns;
 
 func add_texture(map, size):
 	for x in size:
