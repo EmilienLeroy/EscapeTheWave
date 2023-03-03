@@ -17,11 +17,16 @@ func _ready():
 	add_child(map);
 	move_child(map, 0);
 	
+	$Player.score = score;
+	$Player.connect("update_score", self, "on_score_updated");
 	$Escape.connect("player_escape", self, "on_player_escape");
 	$HUD/Level.text = 'Level: ' + str(level);
 	$HUD/Score.text = 'Score: ' + str(score);
 	
 	pass
+
+func on_score_updated(update_score):
+	$HUD/Score.text = 'Score: ' + str(update_score);
 
 func on_player_escape(escape_score):
 	Router.goto_scene('res://scenes/map/map.tscn', {
