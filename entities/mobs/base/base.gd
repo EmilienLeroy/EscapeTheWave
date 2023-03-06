@@ -39,17 +39,20 @@ func _process(delta):
 	if (is_attack_frame):
 		attack_players();
 
-func _physics_process(delta):
-	if path.size() > 0:
-		move_to_target()
 
-func move_to_target():
-	if global_position.distance_to(path[0]) < threshold:
-		path.remove(0)
-	else:
-		var direction = global_position.direction_to(path[0])
-		velocity = direction * speed
-		velocity = move_and_slide(velocity)
+func _physics_process(delta):	
+	if $NavigationAgent2D.is_navigation_finished():
+		return
+
+	var target_global_position = $NavigationAgent2D.get_next_location();
+	var direction = global_position.direction_to(target_global_position);
+	var desired_velocity = direction * $NavigationAgent2D.max_speed;
+	var steering = (desired_velocity - velocity) * delta * 4.0;
+	
+	velocity += steering;
+	$NavigationAgent2D.set_velocity(velocity);
+	move_and_slide(velocity);
+
 		
 func get_target_path(target_pos):
 	path = nav.get_simple_path(global_position, target_pos, false)
@@ -75,7 +78,7 @@ func on_timeout():
 	if (!player):
 		return;
 
-	get_target_path(player.global_position);
+	$NavigationAgent2D.set_target_location(player.global_position)
 
 func on_game_over(score):
 	player = null;
