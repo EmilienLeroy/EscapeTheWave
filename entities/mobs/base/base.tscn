@@ -32,10 +32,6 @@ margin_right = 20.0
 margin_bottom = -12.0
 align = 1
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
-
 [node name="Attack" type="Area2D" parent="."]
 
 [node name="AttackCollision" type="CollisionShape2D" parent="Attack"]

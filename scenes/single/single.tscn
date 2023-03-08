@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://entities/wall/wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/mobs/spawn/spawn.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scenes/single/single.gd" type="Script" id=6]
 [ext_resource path="res://entities/items/life/life.tscn" type="PackedScene" id=7]
 [ext_resource path="res://entities/escape/escape.tscn" type="PackedScene" id=8]
+[ext_resource path="res://entities/mobs/path/path.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( -61, 743, -62, -103, 27, -100, 807, 742, 799, -100 )
@@ -37,27 +38,22 @@ navpoly = SubResource( 1 )
 
 [node name="Spawn4" parent="Navigation2D" instance=ExtResource( 2 )]
 position = Vector2( 118, 639 )
-nav_path = NodePath("..")
 player_path = NodePath("../../Player")
 
 [node name="Spawn3" parent="Navigation2D" instance=ExtResource( 2 )]
 position = Vector2( 702, 618 )
-nav_path = NodePath("..")
 player_path = NodePath("../../Player")
 
 [node name="Spawn" parent="Navigation2D" instance=ExtResource( 2 )]
 position = Vector2( 96, 82 )
-nav_path = NodePath("..")
 player_path = NodePath("../../Player")
 
 [node name="Spawn5" parent="Navigation2D" instance=ExtResource( 2 )]
 position = Vector2( 443, 438 )
-nav_path = NodePath("..")
 player_path = NodePath("../../Player")
 
 [node name="Spawn2" parent="Navigation2D" instance=ExtResource( 2 )]
 position = Vector2( 691, 96 )
-nav_path = NodePath("..")
 player_path = NodePath("../../Player")
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
@@ -95,3 +91,5 @@ position = Vector2( 622, 619 )
 
 [node name="Escape" parent="." instance=ExtResource( 8 )]
 position = Vector2( 772, 713 )
+
+[node name="Path" parent="." instance=ExtResource( 9 )]

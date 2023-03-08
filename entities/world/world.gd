@@ -178,7 +178,7 @@ func add_spawns(map, player, number):
 		if (map[x][y] == 1):
 			var spawn = Spawn.instance();
 		
-			spawn.init(player, $Nav);
+			spawn.init(player);
 			spawn.position = Vector2(x * tile_size, y * tile_size);
 			spawns.push_back(spawn);
 			
