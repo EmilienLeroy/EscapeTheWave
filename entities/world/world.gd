@@ -25,7 +25,7 @@ func _ready():
 	remove_unconnected_island(map);
 	add_wall(map, map_size);
 	add_texture(map, map_size);
-	add_navigation(((map_size / 2) - 2) * tile_size);
+	add_navigation(map);
 	VisualServer.set_default_clear_color(Color8(0, 119, 228));
 	
 	if (escape):
@@ -192,8 +192,6 @@ func add_texture(map, size):
 			var value = map[x][y];
 
 			match value:
-				0:
-					$Nav/Water.set_cell(x, y, 0);
 				1:
 					$Nav/Grass.set_cell(x, y, 0);
 				2: 
@@ -204,10 +202,9 @@ func add_texture(map, size):
 	$Nav/Wall.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
 
 
-func add_navigation(size):
+func add_navigation(map):
 	var polygon = NavigationPolygon.new()
-	var outline = [Vector2(0, 0), Vector2(0, size), Vector2(size, size), Vector2(size, 0)]
 	
-	polygon.add_outline(outline)
+	polygon.add_outline(get_island_border(map))
 	polygon.make_polygons_from_outlines()
 	$Nav/NavigationPolygonInstance.navpoly = polygon;

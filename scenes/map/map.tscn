@@ -37,4 +37,11 @@ margin_right = 770.0
 margin_bottom = 57.0
 text = "Score: 0"
 
+[node name="Fps" type="Label" parent="HUD"]
+margin_left = 719.0
+margin_top = 64.0
+margin_right = 759.0
+margin_bottom = 78.0
+text = "FPS: 0"
+
 [node name="Path" parent="." instance=ExtResource( 6 )]

@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const MIN_RECALC = 1000;
+
 onready var agent = $NavigationAgent2D;
 
 export (NodePath) var player_path;
@@ -9,10 +11,11 @@ export var score_value = 10;
 export var attack_interval = 10;
 export var damage = 10;
 
-var velocity = Vector2.ZERO;
+var velocity = Vector2(0.1, 0.1);
 var threshold = 16;
 var nav = null;
 var player = null;
+var last_stamp = -1
 
 func init(p: KinematicBody2D):
 	player = p;
@@ -26,24 +29,25 @@ func _ready():
 		player.connect('game_over', self, 'on_game_over');
 	
 	set_life(life);
+	agent.call_deferred('set_target_location', player.global_position);
+
 
 func _process(delta):
 	var is_attack_frame = Engine.get_idle_frames() % attack_interval == 0;
 	
 	if (is_attack_frame):
 		attack_players();
-
-func _physics_process(delta):	
-	if agent.is_navigation_finished():
-		return
-
-	var target_global_position = agent.get_next_location();
-	var direction = global_position.direction_to(target_global_position);
-	var desired_velocity = direction * agent.max_speed;
-	var steering = (desired_velocity - velocity) * delta * 4.0;
-	
-	velocity += steering;
-	agent.set_velocity(velocity);
+		
+	if ($VisibilityNotifier2D.is_on_screen()):
+		var target_global_position = agent.get_next_location();
+		var direction = global_position.direction_to(target_global_position);
+		var desired_velocity = direction * agent.max_speed;
+		var steering = (desired_velocity - velocity) * delta * 4.0;
+		
+		velocity += steering;
+		
+		agent.call_deferred('set_velocity', velocity);
+		
 	move_and_slide(velocity);
 
 	
@@ -68,7 +72,15 @@ func update_path():
 	if (!player):
 		return;
 
-	agent.set_target_location(player.global_position)
+	var curr_stamp = OS.get_system_time_msecs();
+
+	if last_stamp < 0:
+		last_stamp = curr_stamp;
+	   
+	var elapsed =  curr_stamp - last_stamp;
+	if elapsed  >= MIN_RECALC:
+		agent.call_deferred('set_target_location', player.global_position);
+	
 
 func on_game_over(score):
 	player = null;

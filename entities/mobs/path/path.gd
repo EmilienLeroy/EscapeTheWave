@@ -6,3 +6,4 @@ func _ready():
 
 func update_paths():
 	get_tree().call_group('mob', 'update_path');
+	pass
