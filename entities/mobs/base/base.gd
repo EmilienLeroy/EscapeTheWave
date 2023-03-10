@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-const MIN_RECALC = 1000;
+const MIN_TIME_UPDATE_PATH = 1000;
 
 onready var agent = $NavigationAgent2D;
 
@@ -11,7 +11,7 @@ export var score_value = 10;
 export var attack_interval = 10;
 export var damage = 10;
 
-var velocity = Vector2(0.1, 0.1);
+var velocity = Vector2();
 var threshold = 16;
 var nav = null;
 var player = null;
@@ -29,6 +29,8 @@ func _ready():
 		player.connect('game_over', self, 'on_game_over');
 	
 	set_life(life);
+	
+	velocity = Vector2(rand_range(-100, 100), rand_range(-100, 100));
 	agent.call_deferred('set_target_location', player.global_position);
 
 
@@ -45,12 +47,10 @@ func _process(delta):
 		var steering = (desired_velocity - velocity) * delta * 4.0;
 		
 		velocity += steering;
-		
 		agent.call_deferred('set_velocity', velocity);
 		
 	move_and_slide(velocity);
 
-	
 func attack_players():
 	var bodies = $Attack.get_overlapping_bodies();
 	
@@ -76,11 +76,9 @@ func update_path():
 
 	if last_stamp < 0:
 		last_stamp = curr_stamp;
-	   
-	var elapsed =  curr_stamp - last_stamp;
-	if elapsed  >= MIN_RECALC:
+
+	if (curr_stamp - last_stamp) >= MIN_TIME_UPDATE_PATH:
 		agent.call_deferred('set_target_location', player.global_position);
-	
 
 func on_game_over(score):
 	player = null;
