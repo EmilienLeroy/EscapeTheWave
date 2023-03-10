@@ -2,26 +2,17 @@ extends Position2D
 
 var Mob = preload("res://entities/mobs/base/base.tscn");
 
-export (NodePath) var nav_path;
 export (NodePath) var player_path;
-
-var nav = null;
 var player = null;
 var rng = RandomNumberGenerator.new();
 var max_mobs = ProjectSettings.get_setting('global/max_mobs');
 
-
-func init(p, n):
+func init(p):
 	player = p;
-	nav = n;
-	
 	player.connect('game_over', self, "on_game_over");
 
 func _ready():
 	rng.randomize();
-	
-	if (nav_path):
-		nav = get_node(nav_path);
 	
 	if (player_path):
 		player = get_node(player_path);
@@ -33,7 +24,7 @@ func _ready():
 func create_mob():
 	var mob = Mob.instance();
 	
-	mob.init(player, nav);
+	mob.init(player);
 	return mob;
 
 func on_timeout():

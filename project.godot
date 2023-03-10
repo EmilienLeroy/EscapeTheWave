@@ -43,7 +43,7 @@ window/stretch/aspect="expand"
 
 [global]
 
-max_mobs=50
+max_mobs=500
 
 [gui]
 

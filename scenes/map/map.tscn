@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://entities/escape/escape.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/map/map.gd" type="Script" id=2]
 [ext_resource path="res://entities/control/control.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/camera/camera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://entities/player/player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://entities/mobs/path/path.tscn" type="PackedScene" id=6]
 
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
@@ -35,3 +36,12 @@ margin_top = 43.0
 margin_right = 770.0
 margin_bottom = 57.0
 text = "Score: 0"
+
+[node name="Fps" type="Label" parent="HUD"]
+margin_left = 719.0
+margin_top = 64.0
+margin_right = 759.0
+margin_bottom = 78.0
+text = "FPS: 0"
+
+[node name="Path" parent="." instance=ExtResource( 6 )]

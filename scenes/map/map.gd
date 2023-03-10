@@ -9,6 +9,9 @@ var map_size = 40;
 func init(data):
 	level = data.level;
 	score = data.score;
+	
+func _process(delta):
+	$HUD/Fps.set_text("Fps: " + String(Engine.get_frames_per_second()));
 
 func _ready():
 	var map = Map.instance();

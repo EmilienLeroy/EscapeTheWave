@@ -177,11 +177,11 @@ func add_spawns(map, player, number):
 		if (map[x][y] == 1):
 			var spawn = Spawn.instance();
 		
-			spawn.init(player, $Nav);
+			spawn.init(player);
 			spawn.position = Vector2(x * tile_size, y * tile_size);
 			spawns.push_back(spawn);
 			
-			add_child(spawn);
+			$Nav.add_child(spawn);
 	
 	return spawns;
 
@@ -201,4 +201,3 @@ func add_texture(map, size):
 	$Nav/Water.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
 	$Nav/Grass.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
 	$Nav/Wall.update_bitmask_region(Vector2(0, 0), Vector2(size, size));
-
