@@ -1,6 +1,7 @@
 extends Node2D
 
 var Spawn = preload("res://entities/mobs/spawn/spawn.tscn");
+var Life = preload("res://entities/items/life/life.tscn");
 
 export var map_size = 64;
 export var tile_size = 20;
@@ -9,13 +10,15 @@ var player;
 var camera;
 var escape;
 var spawn_number = 1;
+var item_number = 1;
 
-func init(s, p, c, e, n):
+func init(s, p, c, e, n, i):
 	map_size = s;
 	player = p;
 	camera = c;
 	escape = e;
 	spawn_number = n;
+	item_number = i;
 
 func _ready():
 	var map = create_map(map_size);
@@ -25,6 +28,7 @@ func _ready():
 	remove_unconnected_island(map);
 	add_wall(map, map_size);
 	add_texture(map, map_size);
+	add_items(map, item_number);
 	VisualServer.set_default_clear_color(Color8(0, 119, 228));
 	
 	if (escape):
@@ -184,6 +188,25 @@ func add_spawns(map, player, number):
 			$Nav.add_child(spawn);
 	
 	return spawns;
+
+func add_items(map, number):
+	var items = [];
+	
+	while items.size() < number:
+		var x = randi() % map_size;
+		var y = randi() % map_size;
+		
+		if (map[x][y] == 1):
+			# Currently only add life item
+			# But in a futur version it must add a random item.
+			var item = Life.instance();
+		
+			item.position = Vector2(x * tile_size, y * tile_size);
+			items.push_back(item);
+			
+			add_child(item);
+	
+	return items;
 
 func add_texture(map, size):
 	for x in size:

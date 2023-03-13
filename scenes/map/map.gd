@@ -16,7 +16,7 @@ func _process(delta):
 func _ready():
 	var map = Map.instance();
 	
-	map.init(map_size * level, $Player, $Camera, $Escape, level);
+	map.init(map_size * level, $Player, $Camera, $Escape, level, level * 5);
 	add_child(map);
 	move_child(map, 0);
 	
